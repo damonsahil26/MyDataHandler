@@ -1,0 +1,30 @@
+﻿@page "/Employees"
+@using MyDataHandler_DataAccess.DTO
+@using MyDataHandler_Services.IServices
+
+@inject IEmployeeService _employeeService
+
+<h1>Employees</h1>
+
+    <RadzenDataGrid AllowFiltering="true" AllowColumnResize="true" FilterMode="FilterMode.Advanced" AllowSorting="true" PageSize="5" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true"
+        Data="@Employees" TItem="EmployeeDTO" ColumnWidth="300px" LogicalFilterOperator="LogicalFilterOperator.Or">
+        <Columns>
+            <RadzenDataGridColumn TItem="EmployeeDTO" Property="Id" Filterable="false" Title="ID" Width="70px" TextAlign="TextAlign.Center" />
+            <RadzenDataGridColumn TItem="EmployeeDTO" Property="FirstName" Title="First Name" Width="140px" />
+            <RadzenDataGridColumn TItem="EmployeeDTO" Property="LastName" Title="Last Name" Width="140px"/>
+            <RadzenDataGridColumn TItem="EmployeeDTO" Property="DateOfjoining" Title="Date of Joining" Width="150px"/>
+            <RadzenDataGridColumn TItem="EmployeeDTO" Property="Address" Title="Address" Width="200px" />
+            <RadzenDataGridColumn TItem="EmployeeDTO" Property="City" Title="City" Width="140px" />
+            <RadzenDataGridColumn TItem="EmployeeDTO" Property="ContactNumber" Title="Phone" Width="140px" />
+        </Columns>
+    </RadzenDataGrid>
+
+@code {
+    RadzenDataGrid<EmployeeDTO> employeeGrid = new();
+    public IEnumerable<EmployeeDTO> Employees { get; set; } = new List<EmployeeDTO>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        Employees = await _employeeService.GetAll();
+    }
+}

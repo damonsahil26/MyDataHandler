@@ -1,0 +1,30 @@
+﻿@page "/Interns"
+@using MyDataHandler_DataAccess.DTO
+@using MyDataHandler_Services.IServices
+
+@inject IInternService _internsService
+
+<h1>Interns</h1>
+
+<RadzenDataGrid AllowFiltering="true" AllowColumnResize="true" FilterMode="FilterMode.Advanced" AllowSorting="true" PageSize="5" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true"
+                Data="@InternsDto" TItem="InternsDTO" ColumnWidth="300px" LogicalFilterOperator="LogicalFilterOperator.Or">
+    <Columns>
+        <RadzenDataGridColumn TItem="InternsDTO" Property="Id" Filterable="false" Title="ID" Width="70px" TextAlign="TextAlign.Center" />
+        <RadzenDataGridColumn TItem="InternsDTO" Property="FirstName" Title="First Name" Width="140px" />
+        <RadzenDataGridColumn TItem="InternsDTO" Property="LastName" Title="Last Name" Width="140px" />
+        <RadzenDataGridColumn TItem="InternsDTO" Property="Address" Title="Address" Width="200px" />
+        <RadzenDataGridColumn TItem="InternsDTO" Property="City" Title="City" Width="140px" />
+        <RadzenDataGridColumn TItem="InternsDTO" Property="ContactNumber" Title="Phone" Width="140px" />
+        <RadzenDataGridColumn TItem="InternsDTO" Property="IsHired" Title="Is Hired?" Width="140px" />
+    </Columns>
+</RadzenDataGrid>
+
+@code {
+    RadzenDataGrid<EmployeeDTO> internGrid = new();
+    public IEnumerable<InternsDTO> InternsDto { get; set; } = new List<InternsDTO>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        InternsDto = await _internsService.GetAll();
+    }
+}
